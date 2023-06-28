@@ -1,4 +1,4 @@
-package e_commerce_final.entities;
+package e_commerce_final.e_commerce.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import e_commerce_final.role.Role;
+import e_commerce_final.e_commerce.role.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

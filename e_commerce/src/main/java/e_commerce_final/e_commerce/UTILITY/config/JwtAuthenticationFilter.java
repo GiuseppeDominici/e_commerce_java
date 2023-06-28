@@ -1,4 +1,4 @@
-package e_commerce_final.UTILITY.config;
+package e_commerce_final.e_commerce.UTILITY.config;
 
 import java.io.IOException;
 
@@ -11,12 +11,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import e_commerce_final.servicies.JwtService;
+import e_commerce_final.e_commerce.servicies.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)throws ServletException, IOException {
-
+        System.out.println("Ciao");
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring("bearer ".length());
         userEmail = jwtService.extractUsername(jwt);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);

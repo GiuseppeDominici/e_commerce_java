@@ -1,4 +1,4 @@
-package e_commerce_final.UTILITY.config;
+package e_commerce_final.e_commerce.UTILITY.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -18,5 +18,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        http.csrf().disable();
+        http.authorizeHttpRequests().requestMatchers("/user/**").permitAll();
+        http.authorizeHttpRequests().anyRequest().authenticated();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
     
 }

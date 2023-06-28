@@ -1,4 +1,4 @@
-package e_commerce_final.servicies;
+package e_commerce_final.e_commerce.servicies;
 
 import java.security.Key;
 import java.util.Date;
@@ -9,23 +9,25 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+import com.auth0.jwt.JWT;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     
-      private static final String SECRET_KEY = "KqxO6lp4KzUVGcvdJ1+fRw5GpkLtZI7Na4ox7F+xYfS9Ww66DpoeWlG/LcXdkMzn";
+      private static final String SECRET_KEY = "yhuOkqQrQOobo5aPxOQ6r6Ad6ghlXvt7G4Q4Y9aA9SCBGXw3ASz15NWULC2jzHg6";
     
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
