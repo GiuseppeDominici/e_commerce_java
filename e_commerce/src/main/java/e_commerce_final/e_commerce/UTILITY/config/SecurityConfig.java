@@ -27,6 +27,7 @@ public class SecurityConfig {
 
         http.csrf().disable();
         http.authorizeHttpRequests().requestMatchers("/user/**").permitAll();
+        http.authorizeHttpRequests().requestMatchers("/user/getAllUsers").hasAnyAuthority("ADMIN");
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
