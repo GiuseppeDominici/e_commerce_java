@@ -46,11 +46,11 @@ public class User implements UserDetails{
     @Column(name="password",  nullable = false, unique = true)
     private String password;
 
-    @Column(name="has_buyed")
-    private boolean hasBuyed=false;
+    // @Column(name="has_buyed")
+    // private boolean hasBuyed=false;
 
-    @Column(name="budget")
-    private double budget;
+    // @Column(name="budget")
+    // private double budget=1200;;
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)

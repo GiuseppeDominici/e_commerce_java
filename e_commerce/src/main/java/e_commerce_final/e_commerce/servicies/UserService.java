@@ -85,14 +85,15 @@ public class UserService {
         return u;
     }
 
-    public List<User> getAllUsers(String email)throws RuntimeException{
-        User tmp = userRepository.findByEmail(email);
-        Role role = Role.ADMIN;
-        if(tmp.getRole().equals(role)){
-            List<User> ul = userRepository.findAll();
+    public List<User> getAllUsers()throws RuntimeException{
+        // User tmp = userRepository.findByEmail(email);
+        // Role role = Role.ADMIN;
+        List<User> ul = userRepository.findAll();
             if(ul.size()==0){throw new UsersDoesNotExistsException();};
             return ul;
-        }
-        return null;
+        // if(tmp.getRole().equals(role)){
+            
+        // }
+        // return null;
     }
 }

@@ -84,9 +84,10 @@ public class UserController {
     }
 
     @GetMapping("/getAllUsers")
-    public ResponseEntity getAllUsers(@RequestParam("email")String email){
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity getAllUsers(){
         try {
-            return ResponseEntity.ok(userService.getAllUsers(email));
+            return ResponseEntity.ok(userService.getAllUsers());
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
         }
