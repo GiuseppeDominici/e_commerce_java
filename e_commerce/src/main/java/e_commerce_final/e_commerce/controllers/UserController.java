@@ -17,6 +17,7 @@ import e_commerce_final.e_commerce.UTILITY.config.RegisterRequest;
 import e_commerce_final.e_commerce.entities.User;
 import e_commerce_final.e_commerce.servicies.JwtService;
 import e_commerce_final.e_commerce.servicies.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -56,8 +57,9 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity deleteUser(@RequestParam("email")String email){
+    public ResponseEntity deleteUser(HttpServletRequest t){
         try {
+            String email = jwtService.getEmailFromT(t);
             userService.deleteUser(email);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
@@ -66,8 +68,9 @@ public class UserController {
     }
 
     @PutMapping("/modifyUser")
-    public ResponseEntity modifyUser(@RequestParam("email")String email, @RequestBody User u){
+    public ResponseEntity modifyUser(HttpServletRequest t, @RequestBody User u){
         try {
+            String email = jwtService.getEmailFromT(t);
             return ResponseEntity.ok(userService.modifyUser(email, u));
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
@@ -75,8 +78,9 @@ public class UserController {
     }
 
     @GetMapping("/getUser")
-    public ResponseEntity getUser(@RequestParam("email")String email){
+    public ResponseEntity getUser(HttpServletRequest t){
         try {
+            String email = jwtService.getEmailFromT(t);
             return ResponseEntity.ok(userService.getUser(email));
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST); 
@@ -85,11 +89,88 @@ public class UserController {
 
     @GetMapping("/getAllUsers")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity getAllUsers(){
+    public ResponseEntity getAllUsers(@RequestParam("nPage")int nPage,@RequestParam("dPage")int dPage){
         try {
-            return ResponseEntity.ok(userService.getAllUsers());
+            return ResponseEntity.ok(userService.getAllUsers(nPage, dPage));
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/addProductToCart")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity addProductToCart(HttpServletRequest t, @RequestParam("codP") String codP, @RequestParam("qty") int q){
+        try{
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.addProductToCart(email, codP, q));
+        }catch (Exception e){
+            return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/removeProductFromCart")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity removeProductFromCart(HttpServletRequest t, @RequestParam("codP")String codP){
+        try {
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.removeProductFromCart(email, codP));
+        } catch (Exception e) {
+            return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/clearCart")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity clearCart(HttpServletRequest t){
+        try {
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.clearCart(email));
+        } catch (Exception e) {
+            return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getCart")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity getCart(HttpServletRequest t){
+        try {
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.getCart(email));
+        } catch (Exception e) {
+            return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/buy")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity buy(HttpServletRequest t, @RequestParam("codP")String codP){
+        try {
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.buy(email, codP));
+        } catch (Exception e) {
+            return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // @PostMapping("/buyAll")
+    // @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    // public ResponseEntity buyAll(HttpServletRequest t){
+    //     try {
+    //         String email = jwtService.getEmailFromT(t);
+    //         return ResponseEntity.ok(userService.buyAll(email));
+    //     } catch (Exception e) {
+    //         return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
+    //     }
+    // }
+
+    @PutMapping("/modifyQty")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public ResponseEntity modifyQty(HttpServletRequest t, @RequestParam("codP")String codP, @RequestParam("qty")int q){
+        try {
+            String email = jwtService.getEmailFromT(t);
+            return ResponseEntity.ok(userService.modifyQty(email, codP, q));
+        } catch (Exception e) {
+            return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
         }
     }
 

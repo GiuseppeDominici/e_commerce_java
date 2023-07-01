@@ -67,9 +67,9 @@ public class ProductController {
 
     @GetMapping("/getAllProducts")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity getAllProducts(){
+    public ResponseEntity getAllProducts(@RequestParam("nPage")int nPage,@RequestParam("dPage")int dPage){
         try {
-            return ResponseEntity.ok(productService.getAllProducts());
+            return ResponseEntity.ok(productService.getAllProducts(nPage, dPage));
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST);
         }

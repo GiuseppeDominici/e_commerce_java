@@ -15,14 +15,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -46,15 +46,22 @@ public class User implements UserDetails{
     @Column(name="password",  nullable = false, unique = true)
     private String password;
 
-    // @Column(name="has_buyed")
-    // private boolean hasBuyed=false;
+    @Column(name="has_buyed")
+    private boolean hasBuyed=false;
 
-    // @Column(name="budget")
-    // private double budget=1200;;
+    @Column(name="budget")
+    private double budget=1200;
 
     @Column(name="role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Version
+    @Column(name="version_user")
+    private int version;
+
+    @OneToMany(mappedBy = "user")
+    private List<ProductInCart> productInCart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

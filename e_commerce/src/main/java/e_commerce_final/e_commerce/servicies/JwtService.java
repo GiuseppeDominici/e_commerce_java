@@ -17,17 +17,11 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
-import com.auth0.jwt.JWT;
-
 @Service
 @RequiredArgsConstructor
 public class JwtService {
     
-      private static final String SECRET_KEY = "yhuOkqQrQOobo5aPxOQ6r6Ad6ghlXvt7G4Q4Y9aA9SCBGXw3ASz15NWULC2jzHg6";
+    private static final String SECRET_KEY = "yhuOkqQrQOobo5aPxOQ6r6Ad6ghlXvt7G4Q4Y9aA9SCBGXw3ASz15NWULC2jzHg6";
     
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -51,7 +45,7 @@ public class JwtService {
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
  
-   private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -73,17 +67,9 @@ public class JwtService {
         String authorization = request.getHeader("Authorization");
 
         if(authorization != null && authorization.startsWith("Bearer ")){
-            try {
-                String refresh_token = authorization.substring("Bearer ".length());
-                Algorithm algorithm=Algorithm.HMAC256(getSignInKey().getEncoded()); 
-                JWTVerifier verifier= JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-                String email=decodedJWT.getSubject();
-                return email;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+            String t = authorization.substring(7);
+            return extractUsername(t);
+
         }
         return null;
     }
