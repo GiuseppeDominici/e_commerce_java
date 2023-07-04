@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import e_commerce_final.e_commerce.UTILITY.DTOs.UserDTO;
 import e_commerce_final.e_commerce.UTILITY.config.LoginRequest;
 import e_commerce_final.e_commerce.UTILITY.config.RegisterRequest;
 import e_commerce_final.e_commerce.entities.User;
@@ -23,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController{
     
     private final UserService userService;
-
+    
     private final JwtService jwtService;
 
     @PostMapping("/register")
@@ -68,6 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/modifyUser")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity modifyUser(HttpServletRequest t, @RequestBody User u){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -78,10 +80,13 @@ public class UserController {
     }
 
     @GetMapping("/getUser")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity getUser(HttpServletRequest t){
         try {
             String email = jwtService.getEmailFromT(t);
-            return ResponseEntity.ok(userService.getUser(email));
+            User u = userService.getUser(email);
+            UserDTO uD = new UserDTO(u);
+            return ResponseEntity.ok(uD);
         } catch (Exception e) {
             return new ResponseEntity(e.getClass().getSimpleName(), HttpStatus.BAD_REQUEST); 
         }
