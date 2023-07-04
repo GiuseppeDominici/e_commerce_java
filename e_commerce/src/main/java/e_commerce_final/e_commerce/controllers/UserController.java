@@ -58,6 +58,7 @@ public class UserController{
     }
 
     @DeleteMapping("/deleteUser")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity deleteUser(HttpServletRequest t){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -103,7 +104,7 @@ public class UserController{
     }
 
     @PostMapping("/addProductToCart")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity addProductToCart(HttpServletRequest t, @RequestParam("codP") String codP, @RequestParam("qty") int q){
         try{
             String email = jwtService.getEmailFromT(t);
@@ -114,7 +115,7 @@ public class UserController{
     }
 
     @DeleteMapping("/removeProductFromCart")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity removeProductFromCart(HttpServletRequest t, @RequestParam("codP")String codP){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -125,7 +126,7 @@ public class UserController{
     }
 
     @DeleteMapping("/clearCart")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity clearCart(HttpServletRequest t){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -136,7 +137,7 @@ public class UserController{
     }
 
     @GetMapping("/getCart")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity getCart(HttpServletRequest t){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -147,7 +148,7 @@ public class UserController{
     }
 
     @PostMapping("/buy")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity buy(HttpServletRequest t, @RequestParam("codP")String codP){
         try {
             String email = jwtService.getEmailFromT(t);
@@ -157,19 +158,8 @@ public class UserController{
         }
     }
 
-    // @PostMapping("/buyAll")
-    // @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    // public ResponseEntity buyAll(HttpServletRequest t){
-    //     try {
-    //         String email = jwtService.getEmailFromT(t);
-    //         return ResponseEntity.ok(userService.buyAll(email));
-    //     } catch (Exception e) {
-    //         return new ResponseEntity(e.getClass().getSimpleName(),HttpStatus.BAD_REQUEST);
-    //     }
-    // }
-
     @PutMapping("/modifyQty")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity modifyQty(HttpServletRequest t, @RequestParam("codP")String codP, @RequestParam("qty")int q){
         try {
             String email = jwtService.getEmailFromT(t);

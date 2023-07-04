@@ -1,15 +1,12 @@
 package e_commerce_final.e_commerce.servicies;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import e_commerce_final.e_commerce.UTILITY.exception.ProductAlreadyExistsException;
-import e_commerce_final.e_commerce.UTILITY.exception.ProductDoesNotExistsException;
+import e_commerce_final.e_commerce.UTILITY.exceptions.ProductAlreadyExistsException;
+import e_commerce_final.e_commerce.UTILITY.exceptions.ProductDoesNotExistsException;
 import e_commerce_final.e_commerce.entities.Product;
-import e_commerce_final.e_commerce.entities.User;
 import e_commerce_final.e_commerce.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

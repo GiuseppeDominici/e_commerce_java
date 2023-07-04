@@ -1,8 +1,5 @@
 package e_commerce_final.e_commerce.servicies;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +10,9 @@ import org.springframework.stereotype.Service;
 import e_commerce_final.e_commerce.UTILITY.config.AuthenticationResponse;
 import e_commerce_final.e_commerce.UTILITY.config.LoginRequest;
 import e_commerce_final.e_commerce.UTILITY.config.RegisterRequest;
-import e_commerce_final.e_commerce.UTILITY.exception.NotEnoughMoneyException;
-import e_commerce_final.e_commerce.UTILITY.exception.ProductDoesNotExistsException;
-import e_commerce_final.e_commerce.UTILITY.exception.UserDoesNotExistsException;
-import e_commerce_final.e_commerce.UTILITY.exception.UsersDoesNotExistsException;
+import e_commerce_final.e_commerce.UTILITY.exceptions.NotEnoughMoneyException;
+import e_commerce_final.e_commerce.UTILITY.exceptions.ProductDoesNotExistsException;
+import e_commerce_final.e_commerce.UTILITY.exceptions.UserDoesNotExistsException;
 import e_commerce_final.e_commerce.entities.Product;
 import e_commerce_final.e_commerce.entities.ProductInCart;
 import e_commerce_final.e_commerce.entities.User;
@@ -175,32 +171,6 @@ public class UserService {
         removeProductFromCart(email, codP);
         return userRepository.save(u);
     }
-
-    // @Transactional
-    // public User buyAll(String email)throws RuntimeException{
-    //     User u = userRepository.findByEmail(email);
-    //     if(u==null){throw new UserDoesNotExistsException();}
-    //     List<ProductInCart> productInCartList = u.getProductInCart();
-    //     List<ProductInCart> tmp = new ArrayList<>();
-    //     if(productInCartList==null || productInCartList.isEmpty()){return null;}
-    //     for(ProductInCart productInCart : productInCartList) {
-    //         if(!tmp.contains(productInCart)){
-    //             Product p = productInCart.getProduct();
-    //             double saldo = p.getPrice()*productInCart.getQuantity();
-    //             if(saldo>u.getBudget()){throw new NotEnoughMoneyException();}
-    //             u.setBudget(u.getBudget() - saldo);
-    //             u.setHasBuyed(true);
-    //             userRepository.save(u);
-    //             p.setQty(p.getQty() - productInCart.getQuantity());
-    //             productRepository.save(p);
-    //             tmp.add(productInCart);
-    //             u = userRepository.save(u);
-    //         }   
-    //     }for (ProductInCart pC : tmp){
-    //         removeProductFromCart(email, pC.getProduct().getCodP());
-    //     }
-    //     return u;
-    // }
 
     @Transactional 
     public User modifyQty(String email, String codP, int q)throws RuntimeException{
